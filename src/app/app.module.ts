@@ -9,12 +9,12 @@ import { ToolbarComponent } from './shared/components/toolbar/toolbar/toolbar.co
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToolbarComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
