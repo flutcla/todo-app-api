@@ -2,7 +2,7 @@
   <h1>Todo 一覧</h1>
   <div *ngIf="todoCategoryList">
     <div class="todo-card" *ngFor="let todoCategory of todoCategoryList">
-        <mat-card>
+        <mat-card [ngStyle]="{'background-color': todoCategory.category.color}">
           <mat-card-header>
             <mat-card-title>{{ todoCategory.todo.title }}</mat-card-title>
             <mat-card-subtitle>{{ todoCategory.category.name }}</mat-card-subtitle>
