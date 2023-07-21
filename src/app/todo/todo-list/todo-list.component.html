@@ -1,5 +1,5 @@
 <div>
-  <h1>Todo 一覧</h1>
+  <h1>Todo 一覧 <a mat-icon-button aria-label="Add" routerLink="/todo/store"><mat-icon>add_circle</mat-icon></a></h1>
   <div *ngIf="todoCategoryList">
     <div class="todo-card" *ngFor="let todoCategory of todoCategoryList">
         <mat-card [ngStyle]="{'background-color': todoCategory.category.color}">
