@@ -11,11 +11,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './shared/components/toolbar/toolbar/toolbar.component';
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { TodoStoreComponent } from './todo/todo-store/todo-store.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
+    TodoStoreComponent,
   ],
   imports: [
     BrowserModule,
