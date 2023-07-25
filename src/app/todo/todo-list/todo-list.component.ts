@@ -13,6 +13,7 @@ export class TodoListComponent {
 
   todoCategoryList: TodoCategory[] = [];
   todoCategorySubs?: Subscription;
+  deleteSubs?: Subscription;
 
   ngOnInit(): void {
     this.todoCategorySubs = this.dataService.getTodoCategoryList().subscribe(data => {
@@ -21,12 +22,13 @@ export class TodoListComponent {
   }
 
   delete(todo: Todo) {
-    this.dataService.deleteTodo(todo).subscribe();
+    this.deleteSubs = this.dataService.deleteTodo(todo).subscribe();
     window.location.reload();
   }
 
   ngOnDestroy(): void {
     this.todoCategorySubs?.unsubscribe();
+    this.deleteSubs?.unsubscribe();
   }
 }
 
