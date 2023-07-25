@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/data.service';
 import { TodoCategory } from 'src/app/data.service';
 @Component({
@@ -11,11 +12,16 @@ export class TodoListComponent {
   constructor(private dataService: DataService) {}
 
   todoCategoryList: TodoCategory[] = [];
+  todoCategorySubs?: Subscription;
 
   ngOnInit(): void {
-    this.dataService.getTodoCategoryList().subscribe(data => {
+    this.todoCategorySubs = this.dataService.getTodoCategoryList().subscribe(data => {
       this.todoCategoryList = data;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.todoCategorySubs?.unsubscribe();
   }
 }
 
