@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DataService, Category, TodoStore } from 'src/app/data.service';
 
 @Component({
@@ -17,6 +18,8 @@ export class TodoStoreComponent {
   ) {}
 
   categoryList: Category[] = [];
+  categorySubs?: Subscription;
+  storeSubs?: Subscription;
 
   form = this.builder.group({
     categoryId: [null, Validators.required],
@@ -27,7 +30,7 @@ export class TodoStoreComponent {
   errorMessage = null;
 
   ngOnInit(): void {
-    this.dataService.getCategoryList().subscribe(data => {
+    this.categorySubs = this.dataService.getCategoryList().subscribe(data => {
       this.categoryList = data;
     });
   }
@@ -40,7 +43,7 @@ export class TodoStoreComponent {
         title: formData.title!,
         body: formData.body ?? ""
       }
-      this.dataService.storeTodo(todoStoreData).subscribe({
+      this.storeSubs = this.dataService.storeTodo(todoStoreData).subscribe({
         next: (_) => {
           this.router.navigate(['todo/list']);
         },
@@ -50,5 +53,10 @@ export class TodoStoreComponent {
       });
 
     }
+  }
+
+  onDestroy(): void {
+    this.categorySubs?.unsubscribe();
+    this.storeSubs?.unsubscribe();
   }
 }
