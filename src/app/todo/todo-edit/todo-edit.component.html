@@ -1,1 +1,42 @@
-<p>todo-edit works!</p>
+<div *ngIf="todoCategory">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Todo 編集</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>カテゴリ</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option *ngFor="let category of categoryList" value={{category.id}}>{{category.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>タイトル</mat-label>
+          <input matInput formControlName="title">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>本文</mat-label>
+          <textarea matInput formControlName="body"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>ステータス</mat-label>
+          <mat-select formControlName="state">
+            <mat-option *ngFor="let state of status" value={{state.code}}>{{state.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+      {{errorMessage}}
+      <mat-card-actions>
+        <button mat-raised-button type="submit" color="primary" [disabled]="form.invalid">更新</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+</div>
