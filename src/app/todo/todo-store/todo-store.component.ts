@@ -55,7 +55,7 @@ export class TodoStoreComponent {
     }
   }
 
-  onDestroy(): void {
+  ngOnDestroy(): void {
     this.categorySubs?.unsubscribe();
     this.storeSubs?.unsubscribe();
   }
