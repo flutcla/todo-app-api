@@ -11,7 +11,7 @@ import { Category, DataService, TodoCategory, STATUS, Todo, TodoEdit } from 'src
 })
 export class TodoEditComponent {
   id?: number;
-  subs: Subscription[] = [];
+  subscription = new Subscription();
   todoCategory?: TodoCategory;
   categoryList: Category[] = [];
   errorMessage?: String;
@@ -32,19 +32,19 @@ export class TodoEditComponent {
   })
 
   ngOnInit(): void {
-    this.subs.push(
+    this.subscription.add(
       this.route.params.subscribe(params => {
         this.id = Number(params['id']);
       })
     );
 
-    this.subs.push(
+    this.subscription.add(
       this.dataService.getCategoryList().subscribe(data => {
         this.categoryList = data;
       })
     );
 
-    this.subs.push(
+    this.subscription.add(
       this.dataService.getTodoCategoryList().subscribe(data => {
         this.todoCategory = data.find(elem => elem.todo.id == this.id);
         console.log(this.todoCategory)
@@ -71,7 +71,7 @@ export class TodoEditComponent {
         body: formData.body ?? "",
         state: Number(formData.state),
       }
-      this.subs.push(
+      this.subscription.add(
         this.dataService.updateTodo(todoData).subscribe({
           next: (_) => {
             this.router.navigate(['todo/list']);
@@ -85,6 +85,6 @@ export class TodoEditComponent {
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach(s => s.unsubscribe());
+    this.subscription.unsubscribe();
   }
 }
