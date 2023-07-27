@@ -1,0 +1,32 @@
+<div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Category 作成</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>カテゴリ名</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>slug</mat-label>
+          <input matInput formControlName="slug">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>色</mat-label>
+          <input matInput formControlName="color">
+        </mat-form-field>
+      </mat-card-content>
+      {{errorMessage}}
+      <mat-card-actions>
+        <button mat-raised-button type="submit" color="primary" [disabled]="form.invalid">登録</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+</div>
