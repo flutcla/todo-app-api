@@ -12,16 +12,16 @@ export class TodoListComponent {
   constructor(private dataService: DataService) {}
 
   todoCategoryList: TodoCategory[] = [];
-  todoCategorySubs?: Subscription;
+  subscription = new Subscription();
 
   ngOnInit(): void {
-    this.todoCategorySubs = this.dataService.getTodoCategoryList().subscribe(data => {
+    this.subscription.add(this.dataService.getTodoCategoryList().subscribe(data => {
       this.todoCategoryList = data;
-    });
+    }));
   }
 
   ngOnDestroy(): void {
-    this.todoCategorySubs?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
 
