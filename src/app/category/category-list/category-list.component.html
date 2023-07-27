@@ -1,0 +1,21 @@
+<div>
+  <h1>Category 一覧 <a mat-icon-button aria-label="Add" routerLink="/todo/store"><mat-icon>add_circle</mat-icon></a></h1>
+  <div *ngIf="categoryList">
+    <div class="category-card" *ngFor="let category of categoryList">
+      <mat-card [ngStyle]="{'background-color': category.color}">
+        <mat-card-header>
+          <mat-card-title>{{ category.name }}</mat-card-title>
+          <mat-card-subtitle>{{ category.slug }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>color: {{ category.color }}</p>
+        </mat-card-content>
+        <mat-card-actions class="button-container">
+          <a mat-icon-button aria-label="Edit"
+            [routerLink]="['/category/edit', category.id]"><mat-icon>edit</mat-icon></a>
+          <a mat-icon-button aria-label="Delete" (click)="delete(category)"><mat-icon>delete</mat-icon></a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

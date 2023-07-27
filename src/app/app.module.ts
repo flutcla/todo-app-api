@@ -17,6 +17,7 @@ import { ToolbarComponent } from './shared/components/toolbar/toolbar/toolbar.co
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { TodoStoreComponent } from './todo/todo-store/todo-store.component';
 import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
+import { CategoryListComponent } from './category/category-list/category-list.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
     TodoListComponent,
     TodoStoreComponent,
     TodoEditComponent,
+    CategoryListComponent,
   ],
   imports: [
     BrowserModule,
