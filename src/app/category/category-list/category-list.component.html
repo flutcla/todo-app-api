@@ -1,5 +1,5 @@
 <div>
-  <h1>Category 一覧 <a mat-icon-button aria-label="Add" routerLink="/todo/store"><mat-icon>add_circle</mat-icon></a></h1>
+  <h1>Category 一覧 <a mat-icon-button aria-label="Add" routerLink="/category/store"><mat-icon>add_circle</mat-icon></a></h1>
   <div *ngIf="categoryList">
     <div class="category-card" *ngFor="let category of categoryList">
       <mat-card [ngStyle]="{'background-color': category.color}">
