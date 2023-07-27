@@ -27,7 +27,7 @@ export class DataService {
   }
 
   updateTodo(todoUpdate: TodoEdit) {
-    return this.http.post(`${this.BASE_URI}/todo/update`, todoUpdate);
+    return this.http.post(`${this.BASE_URI}/todo/${todoUpdate.id}/update`, todoUpdate);
   }
 }
 
