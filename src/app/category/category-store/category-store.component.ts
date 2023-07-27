@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryStore, DataService } from 'src/app/data.service';
@@ -20,12 +21,15 @@ export class CategoryStoreComponent {
   subscription = new Subscription();
 
   form = this.builder.group({
-    name: [null, Validators.required],
-    slug: [null, Validators.required],
-    color: [null, Validators.required]
+    name: ["", Validators.required],
+    slug: ["", Validators.required],
+    color: ["", Validators.required]
   });
 
   errorMessage?: String
+
+  touchUi = false;
+  color = undefined;
 
   onSubmit(): void {
     const formData = this.form.value;
@@ -33,7 +37,7 @@ export class CategoryStoreComponent {
       const categoryStoreData: CategoryStore = {
         name: formData.name!,
         slug: formData.slug!,
-        color: formData.color!
+        color: (formData.color! as any).hex
       }
       this.subscription.add(this.dataService.storeCategory(categoryStoreData).subscribe({
         next: (_) => {
