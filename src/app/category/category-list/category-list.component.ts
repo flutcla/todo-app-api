@@ -20,7 +20,8 @@ export class CategoryListComponent {
   }
 
   delete(category: Category) {
-    // not yet implemented
+    this.subscription.add(this.dataService.deleteCategory(category).subscribe());
+    window.location.reload();
   }
 
   ngOnDestroy(): void {
