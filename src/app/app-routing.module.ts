@@ -5,6 +5,7 @@ import { TodoStoreComponent } from './todo/todo-store/todo-store.component';
 import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
 import { CategoryListComponent } from './category/category-list/category-list.component';
 import { CategoryStoreComponent } from './category/category-store/category-store.component';
+import { CategoryEditComponent } from './category/category-edit/category-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'todo/list' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'todo/edit/:id', component: TodoEditComponent },
   { path: 'category/list', component: CategoryListComponent },
   { path: 'category/store', component: CategoryStoreComponent },
+  { path: 'category/edit/:id', component: CategoryEditComponent },
 ]
 
 @NgModule({
