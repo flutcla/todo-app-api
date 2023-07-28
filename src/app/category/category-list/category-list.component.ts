@@ -8,14 +8,20 @@ import { DataService, Category } from 'src/app/data.service';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent {
-  constructor(private dataService: DataService) {}
+  isLoading: boolean;
+
+  constructor(private dataService: DataService) {
+    this.isLoading = true;
+  }
 
   categoryList: Category[] = [];
   subscription = new Subscription();
 
+
   ngOnInit(): void {
     this.subscription.add(this.dataService.getCategoryList().subscribe(data => {
       this.categoryList = data;
+      this.isLoading = false;
     }));
   }
 

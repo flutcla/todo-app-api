@@ -9,8 +9,11 @@ import { Todo, TodoCategory } from 'src/app/data.service';
 })
 
 export class TodoListComponent {
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) {
+    this.isLoading = true;
+  }
 
+  isLoading: boolean;
   todoCategoryList: TodoCategory[] = [];
   todoCategorySubs?: Subscription;
   deleteSubs?: Subscription;
@@ -18,6 +21,7 @@ export class TodoListComponent {
   ngOnInit(): void {
     this.todoCategorySubs = this.dataService.getTodoCategoryList().subscribe(data => {
       this.todoCategoryList = data;
+      this.isLoading = false;
     });
   }
 
