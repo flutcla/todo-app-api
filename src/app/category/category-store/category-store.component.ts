@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryStore, DataService } from 'src/app/data.service';
-
+import { Color } from '@angular-material-components/color-picker';
 
 @Component({
   selector: 'app-category-store',
@@ -23,7 +22,7 @@ export class CategoryStoreComponent {
   form = this.builder.group({
     name: ["", Validators.required],
     slug: ["", Validators.required],
-    color: ["", Validators.required]
+    color: new FormControl(new Color(255, 255, 255), [Validators.required])
   });
 
   errorMessage?: String
@@ -37,7 +36,7 @@ export class CategoryStoreComponent {
       const categoryStoreData: CategoryStore = {
         name: formData.name!,
         slug: formData.slug!,
-        color: (formData.color! as any).hex
+        color: formData.color!.hex
       }
       this.subscription.add(this.dataService.storeCategory(categoryStoreData).subscribe({
         next: (_) => {
