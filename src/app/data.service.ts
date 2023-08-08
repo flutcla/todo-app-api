@@ -17,6 +17,14 @@ export class DataService {
   deleteTodo(todo: Todo) {
     return this.http.post(`${this.BASE_URI}/todo/delete`, {"id": todo.id});
   }
+
+  getCategoryList(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.BASE_URI}/category/list`);
+  }
+
+  storeTodo(todoStore: TodoStore) {
+    return this.http.post(`${this.BASE_URI}/todo/store`, todoStore);
+  }
 }
 
 interface State {
@@ -30,7 +38,7 @@ export interface Todo {
   body:       String,
   state:      State
 }
-interface Category {
+export interface Category {
   id:    Number,
   name:  String,
   slug:  String,
@@ -39,4 +47,10 @@ interface Category {
 export interface TodoCategory {
   todo: Todo,
   category: Category
+}
+
+export interface TodoStore {
+  categoryId: Number,
+  title:      String,
+  body:       String
 }
