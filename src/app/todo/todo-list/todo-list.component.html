@@ -1,0 +1,18 @@
+<div>
+  <h1>Todo 一覧</h1>
+  <div *ngIf="todoCategoryList">
+    <div class="todo-card" *ngFor="let todoCategory of todoCategoryList">
+        <mat-card [ngStyle]="{'background-color': todoCategory.category.color}">
+          <mat-card-header>
+            <mat-card-title>{{ todoCategory.todo.title }}</mat-card-title>
+            <mat-card-subtitle>{{ todoCategory.category.name }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content><p>{{ todoCategory.todo.body }}</p></mat-card-content>
+          <mat-card-actions class="button-container">
+            <a mat-icon-button aria-label="Edit"><mat-icon>edit</mat-icon></a>
+            <a mat-icon-button aria-label="Delete"><mat-icon>delete</mat-icon></a>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+  </div>
+</div>
