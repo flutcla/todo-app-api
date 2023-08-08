@@ -25,18 +25,36 @@ export class DataService {
   storeTodo(todoStore: TodoStore) {
     return this.http.post(`${this.BASE_URI}/todo/store`, todoStore);
   }
+
+  updateTodo(todoUpdate: TodoEdit) {
+    return this.http.post(`${this.BASE_URI}/todo/${todoUpdate.id}/update`, todoUpdate);
+  }
 }
 
-interface State {
+export interface State {
   code: Number,
   name: String
 }
+
+export const STATUS: State[] = [
+  {code:0, name:'TODO'},
+  {code:1, name:'進行中'},
+  {code:2, name:'完了'}
+]
+
 export interface Todo {
   id:         Number,
   categoryId: Number,
   title:      String,
   body:       String,
   state:      State
+}
+export interface TodoEdit {
+  id:         Number,
+  categoryId: Number,
+  title:      String,
+  body:       String,
+  state:      Number
 }
 export interface Category {
   id:    Number,

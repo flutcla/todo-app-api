@@ -16,12 +16,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './shared/components/toolbar/toolbar/toolbar.component';
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { TodoStoreComponent } from './todo/todo-store/todo-store.component';
+import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoStoreComponent,
+    TodoEditComponent,
   ],
   imports: [
     BrowserModule,
