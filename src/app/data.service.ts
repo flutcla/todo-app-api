@@ -29,6 +29,14 @@ export class DataService {
   updateTodo(todoUpdate: TodoEdit) {
     return this.http.post(`${this.BASE_URI}/todo/${todoUpdate.id}/update`, todoUpdate);
   }
+
+  deleteCategory(category: Category) {
+    return this.http.post(`${this.BASE_URI}/category/delete`, {"id": category.id});
+  }
+
+  storeCategory(categoryStore: CategoryStore) {
+    return this.http.post(`${this.BASE_URI}/category/store`, categoryStore);
+  }
 }
 
 export interface State {
@@ -71,4 +79,10 @@ export interface TodoStore {
   categoryId: Number,
   title:      String,
   body:       String
+}
+
+export interface CategoryStore {
+  name:  String,
+  slug:  String,
+  color: String
 }
