@@ -13,13 +13,17 @@ export class DataService {
   getTodoCategoryList(): Observable<TodoCategory[]> {
     return this.http.get<TodoCategory[]>(`${this.BASE_URI}/todo/list`);
   }
+
+  deleteTodo(todo: Todo) {
+    return this.http.post(`${this.BASE_URI}/todo/delete`, {"id": todo.id});
+  }
 }
 
 interface State {
   code: Number,
   name: String
 }
-interface Todo {
+export interface Todo {
   id:         Number,
   categoryId: Number,
   title:      String,
