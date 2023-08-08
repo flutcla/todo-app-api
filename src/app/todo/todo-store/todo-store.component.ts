@@ -1,25 +1,29 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { DataService, Category, TodoStore } from 'src/app/data.service';
+import { Observable, Subscription } from 'rxjs';
+import { Category, Todo, TodoStore } from 'src/app/data.service';
+import { Store, Select } from '@ngxs/store';
+import { TodoCategoryState } from 'src/app/shared/store/todo.state';
+import { CategoryState } from 'src/app/shared/store/category.state';
+import { CategoryAction } from 'src/app/shared/store/category.action';
+import { TodoAction } from 'src/app/shared/store/todo.action';
 
 @Component({
   selector: 'app-todo-store',
   templateUrl: './todo-store.component.html',
   styleUrls: ['./todo-store.component.scss']
 })
-export class TodoStoreComponent {
+export class TodoStoreComponent implements OnInit {
+  @Select(CategoryState.categories) categories$?: Observable<Category[]>
+  subs = new Subscription();
+
   constructor(
-    private dataService: DataService,
+    private store: Store,
     private builder: FormBuilder,
     private router: Router
   ) {}
-
-  categoryList: Category[] = [];
-  categorySubs?: Subscription;
-  storeSubs?: Subscription;
 
   form = this.builder.group({
     categoryId: [null, Validators.required],
@@ -30,9 +34,11 @@ export class TodoStoreComponent {
   errorMessage = null;
 
   ngOnInit(): void {
-    this.categorySubs = this.dataService.getCategoryList().subscribe(data => {
-      this.categoryList = data;
-    });
+    this.getCategories();
+  }
+
+  getCategories(): void {
+    this.store.dispatch(new CategoryAction.GetAll());
   }
 
   onSubmit(): void {
@@ -43,20 +49,18 @@ export class TodoStoreComponent {
         title: formData.title!,
         body: formData.body ?? ""
       }
-      this.storeSubs = this.dataService.storeTodo(todoStoreData).subscribe({
-        next: (_) => {
-          this.router.navigate(['todo/list']);
-        },
-        error: (e) => {
-          this.errorMessage = e.message;
-        }
-      });
-
+      this.subs.add(this.store.dispatch(new TodoAction.Add(todoStoreData)).subscribe({
+          next: (_) => {
+            this.router.navigate(['todo/list']);
+          },
+          error: (e) => {
+            this.errorMessage = e.message;
+          }
+      }));
     }
   }
 
   ngOnDestroy(): void {
-    this.categorySubs?.unsubscribe();
-    this.storeSubs?.unsubscribe();
+    this.subs.unsubscribe();
   }
 }

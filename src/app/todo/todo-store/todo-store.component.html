@@ -8,7 +8,7 @@
         <mat-form-field>
           <mat-label>カテゴリ</mat-label>
           <mat-select formControlName="categoryId">
-            <mat-option *ngFor="let category of categoryList" value={{category.id}}>{{category.name}}</mat-option>
+            <mat-option *ngFor="let category of categories$ | async" value={{category.id}}>{{category.name}}</mat-option>
           </mat-select>
         </mat-form-field>
       </mat-card-content>
