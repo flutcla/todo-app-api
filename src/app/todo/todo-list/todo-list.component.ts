@@ -1,38 +1,31 @@
-import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/data.service';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store, Select } from '@ngxs/store';
 import { Todo, TodoCategory } from 'src/app/data.service';
+import { TodoCategoryState } from 'src/app/shared/store/todo.state';
+import { TodoAction } from 'src/app/shared/store/todo.action';
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
 })
 
-export class TodoListComponent {
-  constructor(private dataService: DataService) {
-    this.isLoading = true;
-  }
+export class TodoListComponent implements OnInit {
+  @Select(TodoCategoryState.todoCategories) todoCategories$?: Observable<TodoCategory[]>
+  @Select(TodoCategoryState.isLoading) isLoading$?: Observable<boolean>
 
-  isLoading: boolean;
-  todoCategoryList: TodoCategory[] = [];
-  todoCategorySubs?: Subscription;
-  deleteSubs?: Subscription;
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.todoCategorySubs = this.dataService.getTodoCategoryList().subscribe(data => {
-      this.todoCategoryList = data;
-      this.isLoading = false;
-    });
+    this.getTodoCategories();
+  }
+
+  getTodoCategories(): void {
+    this.store.dispatch(new TodoAction.GetAll());
   }
 
   delete(todo: Todo) {
-    this.deleteSubs = this.dataService.deleteTodo(todo).subscribe();
-    window.location.reload();
-  }
-
-  ngOnDestroy(): void {
-    this.todoCategorySubs?.unsubscribe();
-    this.deleteSubs?.unsubscribe();
+    this.store.dispatch(new TodoAction.Delete(todo))
   }
 }
 
