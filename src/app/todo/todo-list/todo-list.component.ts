@@ -9,14 +9,18 @@ import { Todo, TodoCategory } from 'src/app/data.service';
 })
 
 export class TodoListComponent {
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) {
+    this.isLoading = true;
+  }
 
+  isLoading: boolean;
   todoCategoryList: TodoCategory[] = [];
   subscription = new Subscription();
 
   ngOnInit(): void {
     this.subscription.add(this.dataService.getTodoCategoryList().subscribe(data => {
       this.todoCategoryList = data;
+      this.isLoading = false;
     }));
   }
 

@@ -1,6 +1,9 @@
 <div>
   <h1>Todo 一覧 <a mat-icon-button aria-label="Add" routerLink="/todo/store"><mat-icon>add_circle</mat-icon></a></h1>
-  <div *ngIf="todoCategoryList">
+  <div *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!isLoading">
     <div class="todo-card" *ngFor="let todoCategory of todoCategoryList">
         <mat-card [ngStyle]="{'background-color': todoCategory.category.color}">
           <mat-card-header>
