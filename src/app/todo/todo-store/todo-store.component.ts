@@ -18,8 +18,7 @@ export class TodoStoreComponent {
   ) {}
 
   categoryList: Category[] = [];
-  categorySubs?: Subscription;
-  storeSubs?: Subscription;
+  subscription = new Subscription();
 
   form = this.builder.group({
     categoryId: [null, Validators.required],
@@ -30,9 +29,9 @@ export class TodoStoreComponent {
   errorMessage = null;
 
   ngOnInit(): void {
-    this.categorySubs = this.dataService.getCategoryList().subscribe(data => {
+    this.subscription.add(this.dataService.getCategoryList().subscribe(data => {
       this.categoryList = data;
-    });
+    }));
   }
 
   onSubmit(): void {
@@ -43,20 +42,19 @@ export class TodoStoreComponent {
         title: formData.title!,
         body: formData.body ?? ""
       }
-      this.storeSubs = this.dataService.storeTodo(todoStoreData).subscribe({
+      this.subscription.add(this.dataService.storeTodo(todoStoreData).subscribe({
         next: (_) => {
           this.router.navigate(['todo/list']);
         },
         error: (e) => {
           this.errorMessage = e.message;
         }
-      });
+      }));
 
     }
   }
 
   ngOnDestroy(): void {
-    this.categorySubs?.unsubscribe();
-    this.storeSubs?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
