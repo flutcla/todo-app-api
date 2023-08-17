@@ -39,9 +39,9 @@ export class TodoCategoryState {
 
   @Action(TodoAction.Get)
   getTodo(ctx: StateContext<TodoCategoryStateModel>, action: TodoAction.Get) {
-    return this.dataService.getTodoCategoryList().pipe(
+    return this.dataService.getTodoCategory(action.id).pipe(
       tap(data => {
-        ctx.patchState({ selectedTodo: data.find(x => x.todo.id == action.id) });
+        ctx.patchState({ selectedTodo: data });
       })
     );
   }

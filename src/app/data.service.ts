@@ -10,6 +10,10 @@ export class DataService {
 
   BASE_URI = 'http://localhost:9000'
 
+  getTodoCategory(id: number): Observable<TodoCategory> {
+    return this.http.get<TodoCategory>(`${this.BASE_URI}/todo/${id}`);
+  }
+
   getTodoCategoryList(): Observable<TodoCategory[]> {
     return this.http.get<TodoCategory[]>(`${this.BASE_URI}/todo/list`);
   }
