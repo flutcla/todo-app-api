@@ -39,9 +39,9 @@ export class CategoryState {
 
   @Action(CategoryAction.Get)
   getCategory(ctx: StateContext<CategoryStateModel>, action: CategoryAction.Get) {
-    return this.dataService.getCategoryList().pipe(
+    return this.dataService.getCategory(action.id).pipe(
       tap(data => {
-        ctx.patchState({ selectedCategory: data.find(x => x.id == action.id) });
+        ctx.patchState({ selectedCategory: data });
       })
     );
   }
