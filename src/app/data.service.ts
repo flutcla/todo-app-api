@@ -37,6 +37,10 @@ export class DataService {
   storeCategory(categoryStore: CategoryStore) {
     return this.http.post(`${this.BASE_URI}/category/store`, categoryStore);
   }
+
+  updateCategory(categoryUpdate: Category) {
+    return this.http.post(`${this.BASE_URI}/category/${categoryUpdate.id}/update`, categoryUpdate);
+  }
 }
 
 export interface State {
