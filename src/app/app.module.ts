@@ -26,6 +26,7 @@ import { CategoryEditComponent } from './category/category-edit/category-edit.co
 
 import { NgxsModule } from '@ngxs/store';
 import { TodoCategoryState } from './shared/store/todo.state';
+import { CategoryState } from './shared/store/category.state';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { TodoCategoryState } from './shared/store/todo.state';
     MatSelectModule,
     MatProgressSpinnerModule,
     NgxMatColorPickerModule,
-    NgxsModule.forRoot([TodoCategoryState])
+    NgxsModule.forRoot([TodoCategoryState, CategoryState]),
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },

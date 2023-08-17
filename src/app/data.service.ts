@@ -22,6 +22,10 @@ export class DataService {
     return this.http.post(`${this.BASE_URI}/todo/delete`, {"id": todo.id});
   }
 
+  getCategory(id: number): Observable<Category> {
+    return this.http.get<Category>(`${this.BASE_URI}/category/${id}`);
+  }
+
   getCategoryList(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.BASE_URI}/category/list`);
   }
