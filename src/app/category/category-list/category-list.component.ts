@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataService, Category } from 'src/app/data.service';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Category } from 'src/app/data.service';
+import { CategoryAction } from 'src/app/shared/store/category.action';
+import { CategoryState } from 'src/app/shared/store/category.state';
 
 @Component({
   selector: 'app-category-list',
@@ -8,32 +11,21 @@ import { DataService, Category } from 'src/app/data.service';
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent {
-  isLoading: boolean;
+  @Select(CategoryState.categories) categories$?: Observable<Category[]>;
+  @Select(CategoryState.isLoading) isLoading$?: Observable<boolean>;
 
-  constructor(private dataService: DataService) {
-    this.isLoading = true;
-  }
-
-  categoryList: Category[] = [];
-  subscription = new Subscription();
+  constructor(private store: Store) {}
 
 
   ngOnInit(): void {
-    this.subscription.add(this.dataService.getCategoryList().subscribe(data => {
-      this.categoryList = data;
-      this.isLoading = false;
-    }));
+    this.getCategories();
+  }
+
+  getCategories(): void {
+    this.store.dispatch(new CategoryAction.GetAll());
   }
 
   delete(category: Category) {
-    this.subscription.add(this.dataService.deleteCategory(category).subscribe(_ => {
-      this.subscription.add(this.dataService.getCategoryList().subscribe(data => {
-        this.categoryList = data;
-      }));
-    }));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.store.dispatch(new CategoryAction.Delete(category));
   }
 }
