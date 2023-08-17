@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Category, DataService, TodoCategory, STATUS, Todo, TodoEdit } from 'src/app/data.service';
+import { Observable, Subscription } from 'rxjs';
+import { Category, TodoCategory, STATUS, TodoEdit } from 'src/app/data.service';
+import { Select, Store } from '@ngxs/store';
+import { TodoCategoryState } from 'src/app/shared/store/todo.state';
+import { CategoryState } from 'src/app/shared/store/category.state';
+import { TodoAction } from 'src/app/shared/store/todo.action';
+import { CategoryAction } from 'src/app/shared/store/category.action';
 
 @Component({
   selector: 'app-todo-edit',
@@ -10,81 +15,79 @@ import { Category, DataService, TodoCategory, STATUS, Todo, TodoEdit } from 'src
   styleUrls: ['./todo-edit.component.scss']
 })
 export class TodoEditComponent {
-  id?: number;
-  subscription = new Subscription();
+  @Select(TodoCategoryState.selectedTodo) todoCategory$?: Observable<TodoCategory>;
+  @Select(CategoryState.categories) categories$?: Observable<Category[]>;
+  subs = new Subscription();
   todoCategory?: TodoCategory;
-  categoryList: Category[] = [];
   errorMessage?: String;
   status = STATUS;
 
   constructor(
     private route: ActivatedRoute,
-    private dataService: DataService,
+    private store: Store,
     private builder: FormBuilder,
     private router: Router,
   ) {}
 
   form = this.builder.group({
-    categoryId: ['', Validators.required],
-    title: ['', Validators.required],
+    categoryId: new FormControl<string|null>(null, [Validators.required]),
+    title: new FormControl<string|null>(null, [Validators.required]),
     body: [''],
-    state: ['', Validators.required]
+    state: new FormControl<string|null>(null, [Validators.required]),
   })
 
   ngOnInit(): void {
-    this.subscription.add(
+    this.getTodoCategory();
+    this.getCategories();
+
+    if (this.todoCategory$ != undefined) {
+      this.subs.add(this.todoCategory$.subscribe(todoCategory => {
+        if(todoCategory == undefined) return;
+        this.form.setValue({
+          categoryId: String(todoCategory.todo.categoryId),
+          title: String(todoCategory.todo.title),
+          body: String(todoCategory.todo.body),
+          state: String(todoCategory.todo.state.code)
+        });
+        this.todoCategory = todoCategory;
+      }))
+    }
+  }
+
+  getTodoCategory(): void {
+    this.subs.add(
       this.route.params.subscribe(params => {
-        this.id = Number(params['id']);
-      })
-    );
-
-    this.subscription.add(
-      this.dataService.getCategoryList().subscribe(data => {
-        this.categoryList = data;
-      })
-    );
-
-    this.subscription.add(
-      this.dataService.getTodoCategoryList().subscribe(data => {
-        this.todoCategory = data.find(elem => elem.todo.id == this.id);
-        console.log(this.todoCategory)
-        if(this.todoCategory != undefined){
-          this.form.setValue({
-            categoryId: String(this.todoCategory.todo.categoryId),
-            title: String(this.todoCategory.todo.title),
-            body: String(this.todoCategory.todo.body),
-            state: String(this.todoCategory.todo.state.code)
-          });
-        }
+        this.store.dispatch(new TodoAction.Get(Number(params['id'])));
       })
     );
   }
 
+  getCategories(): void {
+    this.store.dispatch(new CategoryAction.GetAll());
+  }
+
   onSubmit(): void {
     const formData = this.form.value;
-    console.log(formData)
     if (this.form.valid){
       const todoData: TodoEdit = {
-        id: this.id!,
-        categoryId: Number(formData.categoryId!),
+        id: this.todoCategory!.todo.id,
+        categoryId: Number(formData.categoryId),
         title: formData.title!,
         body: formData.body ?? "",
         state: Number(formData.state),
       }
-      this.subscription.add(
-        this.dataService.updateTodo(todoData).subscribe({
-          next: (_) => {
+      this.subs.add(this.store.dispatch(new TodoAction.Update(todoData)).subscribe({
+        next: (_) => {
             this.router.navigate(['todo/list']);
           },
           error: (e) => {
             this.errorMessage = e.message;
           }
-        })
-      );
+      }));
     }
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subs.unsubscribe();
   }
 }
