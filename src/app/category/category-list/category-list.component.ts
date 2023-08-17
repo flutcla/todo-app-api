@@ -26,8 +26,11 @@ export class CategoryListComponent {
   }
 
   delete(category: Category) {
-    this.subscription.add(this.dataService.deleteCategory(category).subscribe());
-    window.location.reload();
+    this.subscription.add(this.dataService.deleteCategory(category).subscribe(_ => {
+      this.subscription.add(this.dataService.getCategoryList().subscribe(data => {
+        this.categoryList = data;
+      }));
+    }));
   }
 
   ngOnDestroy(): void {
