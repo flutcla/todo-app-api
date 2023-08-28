@@ -8,15 +8,29 @@ import { CategoryStoreComponent } from './category/category-store/category-store
 import { CategoryEditComponent } from './category/category-edit/category-edit.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { LoginComponent } from './user/login/login.component';
+import { authGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'todo/list' },
-  { path: 'todo/list', component: TodoListComponent },
-  { path: 'todo/store', component: TodoStoreComponent },
-  { path: 'todo/edit/:id', component: TodoEditComponent },
-  { path: 'category/list', component: CategoryListComponent },
-  { path: 'category/store', component: CategoryStoreComponent },
-  { path: 'category/edit/:id', component: CategoryEditComponent },
+
+  {
+    path: 'todo',
+    canActivateChild: [authGuard],
+    children: [
+      { path: 'list', component: TodoListComponent },
+      { path: 'store', component: TodoStoreComponent },
+      { path: 'edit/:id', component: TodoEditComponent },
+    ]
+  },
+  {
+    path: 'category',
+    canActivateChild: [authGuard],
+    children: [
+      { path: 'list', component: CategoryListComponent },
+      { path: 'store', component: CategoryStoreComponent },
+      { path: 'edit/:id', component: CategoryEditComponent },
+    ]
+  },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
 ]
