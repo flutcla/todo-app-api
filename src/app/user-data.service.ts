@@ -11,15 +11,15 @@ export class UserDataService {
   BASE_URI = 'http://localhost:9000'
 
   signup(data: UserSignup) {
-    return this.httpd.post(`${this.BASE_URI}/user/signup`, data);
+    return this.httpd.post(`${this.BASE_URI}/user/signup`, data, {withCredentials: true});
   }
 
   logout() {
-    return this.httpd.post(`${this.BASE_URI}/user/logout`, {});
+    return this.httpd.post(`${this.BASE_URI}/user/logout`, {}, {withCredentials: true});
   }
 
   login(data: UserLogin) {
-    return this.httpd.post(`${this.BASE_URI}/user/login`, data);
+    return this.httpd.post(`${this.BASE_URI}/user/login`, data, {withCredentials: true});
   }
 }
 

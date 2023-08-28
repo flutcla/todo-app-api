@@ -2,6 +2,12 @@
   <button mat-button routerLink="/todo/list">Todo</button>
   <button mat-button routerLink="/category/list">Category</button>
   <span class="spacer"></span>
-  <span>Logging in as {{ (currentUser$ | async)?.name }}</span>
-  <button mat-button (click)="logout()">Logout</button>
+  <span *ngIf="isLoggedIn$ | async">
+    <button mat-button>Logging in as {{ (currentUser$ | async)?.name }}</button>
+    <button mat-button (click)="logout()">Logout</button>
+  </span>
+  <span *ngIf="!(isLoggedIn$ | async)">
+    <button mat-button routerLink="/login">Login</button>
+    <button mat-button routerLink="/signup">Signup</button>
+  </span>
 </mat-toolbar>
