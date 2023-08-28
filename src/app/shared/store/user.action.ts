@@ -6,4 +6,9 @@ export namespace UserAction {
     static readonly type = '[User] Signup'
     constructor(public userSignup: UserSignup) {}
   }
+
+  export class Logout{
+    static readonly type = '[User] Logout';
+    constructor() {}
+  }
 }

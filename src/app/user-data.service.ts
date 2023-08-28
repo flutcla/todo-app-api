@@ -13,6 +13,10 @@ export class UserDataService {
   signup(data: UserSignup) {
     return this.httpd.post(`${this.BASE_URI}/user/signup`, data);
   }
+
+  logout() {
+    return this.httpd.post(`${this.BASE_URI}/user/logout`, {});
+  }
 }
 
 export interface User {

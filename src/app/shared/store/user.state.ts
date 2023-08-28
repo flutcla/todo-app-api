@@ -32,6 +32,18 @@ export class UserState {
     );
   }
 
+  @Action(UserAction.Logout)
+  logout(ctx: StateContext<UserStateModel>, action: UserAction.Logout) {
+    return this.userDataService.logout().pipe(
+      tap(data => {
+        ctx.patchState({
+          currentUser: undefined,
+          isLoggedIn: false
+        });
+      }),
+    );
+  }
+
   @Selector()
   static currentUser(state: UserStateModel) {
     return state.currentUser;
