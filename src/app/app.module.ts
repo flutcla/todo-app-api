@@ -29,6 +29,7 @@ import { TodoCategoryState } from './shared/store/todo.state';
 import { CategoryState } from './shared/store/category.state';
 import { SignupComponent } from './user/signup/signup.component';
 import { UserState } from './shared/store/user.state';
+import { LoginComponent } from './user/login/login.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { UserState } from './shared/store/user.state';
     CategoryStoreComponent,
     CategoryEditComponent,
     SignupComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

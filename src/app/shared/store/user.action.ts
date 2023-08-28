@@ -1,4 +1,4 @@
-import { UserSignup } from "src/app/user-data.service";
+import { UserLogin, UserSignup } from "src/app/user-data.service";
 
 
 export namespace UserAction {
@@ -10,5 +10,10 @@ export namespace UserAction {
   export class Logout{
     static readonly type = '[User] Logout';
     constructor() {}
+  }
+
+  export class Login{
+    static readonly type = '[User] Login';
+    constructor(public userLogin: UserLogin) {}
   }
 }

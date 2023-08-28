@@ -17,6 +17,10 @@ export class UserDataService {
   logout() {
     return this.httpd.post(`${this.BASE_URI}/user/logout`, {});
   }
+
+  login(data: UserLogin) {
+    return this.httpd.post(`${this.BASE_URI}/user/login`, data);
+  }
 }
 
 export interface User {
@@ -25,5 +29,10 @@ export interface User {
 }
 
 export interface UserSignup extends User {
+  password: string
+}
+
+export interface UserLogin {
+  email:    string,
   password: string
 }

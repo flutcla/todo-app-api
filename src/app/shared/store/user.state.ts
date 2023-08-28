@@ -44,6 +44,18 @@ export class UserState {
     );
   }
 
+  @Action(UserAction.Login)
+  login(ctx: StateContext<UserStateModel>, action: UserAction.Login) {
+    return this.userDataService.login(action.userLogin).pipe(
+      tap(data => {
+        ctx.patchState({
+          currentUser: data as User,
+          isLoggedIn: true
+        });
+      }),
+    );
+  }
+
   @Selector()
   static currentUser(state: UserStateModel) {
     return state.currentUser;

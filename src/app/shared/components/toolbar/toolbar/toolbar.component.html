@@ -2,6 +2,6 @@
   <button mat-button routerLink="/todo/list">Todo</button>
   <button mat-button routerLink="/category/list">Category</button>
   <span class="spacer"></span>
-  <span>Logged in as {{ (currentUser$ | async)?.name }}</span>
+  <span>Logging in as {{ (currentUser$ | async)?.name }}</span>
   <button mat-button (click)="logout()">Logout</button>
 </mat-toolbar>
